@@ -1,0 +1,60 @@
+﻿<Window x:Class="ProjectPath.AddEditEvent"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectPath"
+        mc:Ignorable="d"
+       Title="Событие" Height="400" Width="500"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Loaded="Window_Loaded">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип события:" VerticalAlignment="Center" FontWeight="Bold"/>
+        <ComboBox x:Name="cbTypeOperation" Grid.Row="0" Grid.Column="1" Margin="0,5">
+            <ComboBoxItem Content="Согласование"/>
+            <ComboBoxItem Content="Передача цеху"/>
+            <ComboBoxItem Content="Доставка"/>
+            <ComboBoxItem Content="Контроль"/>
+            <ComboBoxItem Content="Смена руководителя"/>
+            <ComboBoxItem Content="Замечание"/>
+            <ComboBoxItem Content="Завершение"/>
+            <ComboBoxItem Content="Прочее"/>
+        </ComboBox>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Дата:" VerticalAlignment="Center" FontWeight="Bold"/>
+        <DatePicker x:Name="dpDateExecution" Grid.Row="1" Grid.Column="1" Margin="0,5"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Время:" VerticalAlignment="Center" FontWeight="Bold"/>
+        <TextBox x:Name="tbTime" Grid.Row="2" Grid.Column="1" Margin="0,5" Text="12:00"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Комментарий:" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBox x:Name="tbComment" Grid.Row="3" Grid.Column="1" Margin="0,5" Height="100" 
+                 TextWrapping="Wrap"/>
+
+        <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" 
+                    HorizontalAlignment="Center" Margin="0,20">
+            <Button x:Name="btnSave" Content="Сохранить" Width="100" Height="30" 
+                    Margin="0,0,10,0" Click="btnSave_Click"/>
+            <Button x:Name="btnDelete" Content="Удалить" Width="100" Height="30" 
+                    Margin="0,0,10,0" Click="btnDelete_Click" Background="#E74C3C" Foreground="White"/>
+            <Button x:Name="btnCancel" Content="Отмена" Width="100" Height="30" 
+                    Click="btnCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
