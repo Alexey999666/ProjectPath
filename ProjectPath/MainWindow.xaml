@@ -3,110 +3,274 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProjectPath"
         mc:Ignorable="d"
-        Title="Управление проектами" Height="600" Width="900"
+        Title="Управление проектами" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        Background="#F5F7FA">
 
-    <Grid>
+    <Window.Resources>
+        <!-- Стиль для кнопок -->
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#3498DB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <!--<Setter Property="BorderRadius" Value="4"/>-->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2980B9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource ActionButton}">
+            <Setter Property="Background" Value="#E74C3C"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#C0392B"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="OutlineButton" TargetType="Button" BasedOn="{StaticResource ActionButton}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#3498DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#3498DB"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#EBF5FB"/>
+                    <Setter Property="Foreground" Value="#2980B9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для заголовков секций -->
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+
+        <!-- Стиль для карточек -->
+        <Style x:Key="InfoCard" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="#2C3E50" Padding="10">
+        <!-- Верхняя панель -->
+        <Border Grid.Row="0" Background="#2C3E50" Padding="15,12">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="Система управления проектами" 
-                           FontSize="20" Foreground="White" FontWeight="Bold"/>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="📊" FontSize="24" Foreground="#3498DB" Margin="0,0,10,0"/>
+                    <TextBlock Text="Управление проектами" 
+                               FontSize="20" Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <TextBlock x:Name="tbUserInfo" Foreground="White" 
-                               VerticalAlignment="Center" Margin="0,0,15,0"/>
-                    <Button x:Name="btnLogout" Content="Выход" Width="80" 
+                    <Border Background="#34495E" CornerRadius="15" Padding="10,5" Margin="0,0,15,0">
+                        <TextBlock x:Name="tbUserInfo" Foreground="White" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <Button x:Name="btnLogout" Content="Выход" Width="80" Height="32" 
                             Click="btnLogout_Click" Background="#E74C3C" 
-                            Foreground="White" BorderThickness="0"/>
+                            Foreground="White" BorderThickness="0" Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <TabControl Grid.Row="1" Margin="10">
-            <TabItem Header="Проекты">
-                <Grid Margin="10">
+        <!-- Основное содержимое -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Левая панель - список проектов -->
+            <Border Grid.Column="0" Style="{StaticResource InfoCard}" Margin="0,0,15,0">
+                <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
-                        <Button x:Name="btnAdd" Content="Добавить проект" Width="120" 
-                                Margin="0,0,5,0" Click="btnAdd_Click"/>
-                        <Button x:Name="btnEdit" Content="Редактировать" Width="100" 
-                                Margin="0,0,5,0" Click="btnEdit_Click"/>
-                        <Button x:Name="btnDelete" Content="Удалить" Width="100" 
-                                Margin="0,0,5,0" Click="btnDelete_Click"/>
-                        <Button x:Name="btnRefresh" Content="Обновить" Width="100" 
-                                Click="btnRefresh_Click"/>
+                    <!-- Заголовок -->
+                    <TextBlock Grid.Row="0" Text="📋 Список проектов" Style="{StaticResource SectionHeader}"/>
+
+                    <!-- Панель поиска -->
+                    <Border Grid.Row="1" Background="#F0F3F8" CornerRadius="20" Padding="8,5" Margin="0,0,0,15">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="🔍" FontSize="14" Margin="5,0,8,0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="tbSearch" Grid.Column="1" Background="Transparent" 
+                                     BorderThickness="0" FontSize="14"
+                                     TextChanged="tbSearch_TextChanged"
+                                     VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Кнопки действий -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,15">
+                        <Button x:Name="btnAdd" Content="➕ Добавить" Style="{StaticResource ActionButton}" Click="btnAdd_Click"/>
+                        <Button x:Name="btnEdit" Content="✏️ Редактировать" Style="{StaticResource OutlineButton}" Click="btnEdit_Click"/>
+                        <Button x:Name="btnDelete" Content="🗑️ Удалить" Style="{StaticResource DangerButton}" Click="btnDelete_Click"/>
+                        <Button x:Name="btnRefresh" Content="🔄" Width="40" Style="{StaticResource OutlineButton}" Click="btnRefresh_Click" Padding="0"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-                        <TextBlock Text="Поиск:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                        <TextBox x:Name="tbSearch" Width="200" 
-                                 TextChanged="tbSearch_TextChanged"/>
-                    </StackPanel>
-
-                    <DataGrid x:Name="dgProjects" Grid.Row="2" 
+                    <!-- DataGrid проектов -->
+                    <DataGrid x:Name="dgProjects" Grid.Row="3" 
                               AutoGenerateColumns="False" IsReadOnly="True"
-                              SelectionChanged="dgProjects_SelectionChanged">
+                              SelectionChanged="dgProjects_SelectionChanged"
+                              MouseDoubleClick="dgProjects_MouseDoubleClick"
+                              AlternatingRowBackground="#F9FAFC"
+                              RowBackground="White"
+                              BorderThickness="0"
+                              GridLinesVisibility="Horizontal"
+                              FontSize="13">
+                        <DataGrid.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3498DB"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                        </DataGrid.Resources>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding ProjectId}" Width="50"/>
-                            <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="200"/>
-                            <DataGridTextColumn Header="Заказчик" Binding="{Binding Customer.NameOrganization}" Width="150"/>
-                            <DataGridTextColumn Header="Руководитель" Binding="{Binding SupervisorNavigation.LastName}" Width="150"/>
+                            <DataGridTextColumn Header="Название проекта" Binding="{Binding Name}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Заказчик" Binding="{Binding Customer.NameOrganization}" Width="120"/>
                             <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
-                            <DataGridTextColumn Header="Дата старта" Binding="{Binding StartDate, StringFormat=d}" Width="100"/>
-                            <DataGridTextColumn Header="Плановая дата" Binding="{Binding PlannedCompletionDate, StringFormat=d}" Width="100"/>
+                            <DataGridTextColumn Header="План" Binding="{Binding PlannedCompletionDate, StringFormat=dd.MM.yyyy}" Width="90"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
-            </TabItem>
+            </Border>
 
-            <TabItem Header="История проекта" x:Name="tabHistory" IsEnabled="False">
-                <Grid Margin="10">
+            <!-- Правая панель - детали и история -->
+            <Border Grid.Column="1" Style="{StaticResource InfoCard}">
+                <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0" Background="#ECF0F1" Padding="10" Margin="0,0,0,10">
-                        <TextBlock x:Name="tbSelectedProject" FontSize="14" FontWeight="Bold"/>
+                    <!-- Заголовок с иконкой -->
+                    <TextBlock Grid.Row="0" Text="ℹ️ Информация о проекте" Style="{StaticResource SectionHeader}"/>
+
+                    <!-- Карточка информации о проекте (видна только при выборе) -->
+                    <Border x:Name="projectInfoPanel" Grid.Row="1" Background="#F0F8FF" CornerRadius="8" Padding="12" Margin="0,0,0,15" Visibility="Collapsed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Название:" FontWeight="Bold" Foreground="#2C3E50"/>
+                            <TextBlock x:Name="tbDetailName" Grid.Row="0" Grid.Column="1" Foreground="#2C3E50"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Заказчик:" FontWeight="Bold" Foreground="#2C3E50" Margin="0,8,0,0"/>
+                            <TextBlock x:Name="tbDetailCustomer" Grid.Row="1" Grid.Column="1" Foreground="#2C3E50" Margin="0,8,0,0"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Руководитель:" FontWeight="Bold" Foreground="#2C3E50" Margin="0,8,0,0"/>
+                            <TextBlock x:Name="tbDetailSupervisor" Grid.Row="2" Grid.Column="1" Foreground="#2C3E50" Margin="0,8,0,0"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Статус:" FontWeight="Bold" Foreground="#2C3E50" Margin="0,8,0,0"/>
+                            <Border x:Name="statusBadge" Grid.Row="3" Grid.Column="1" CornerRadius="10" Padding="8,3" Margin="0,8,0,0" HorizontalAlignment="Left">
+                                <TextBlock x:Name="tbDetailStatus" Foreground="White" FontSize="11"/>
+                            </Border>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Даты:" FontWeight="Bold" Foreground="#2C3E50" Margin="0,8,0,0"/>
+                            <TextBlock x:Name="tbDetailDates" Grid.Row="4" Grid.Column="1" Foreground="#2C3E50" Margin="0,8,0,0"/>
+                        </Grid>
                     </Border>
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-                        <Button x:Name="btnAddEvent" Content="Добавить событие" Width="130" 
-                                Click="btnAddEvent_Click" Margin="0,0,5,0"/>
-                        <Button x:Name="btnRefreshHistory" Content="Обновить" Width="100" 
-                                Click="btnRefreshHistory_Click"/>
+                    <!-- Информация при отсутствии выбранного проекта -->
+                    <Border x:Name="noProjectPanel" Grid.Row="1" Background="#F0F3F8" CornerRadius="8" Padding="20" Margin="0,0,0,15">
+                        <TextBlock Text="👈 Выберите проект из списка" 
+                                   Foreground="#7F8C8D" FontSize="14" TextAlignment="Center"/>
+                    </Border>
+
+                    <!-- Заголовок истории -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Text="📜 История изменений" Style="{StaticResource SectionHeader}" Margin="0,0,15,0"/>
+                        <Button x:Name="btnAddEvent" Content="➕ Добавить событие" 
+                                Style="{StaticResource ActionButton}" Click="btnAddEvent_Click"
+                                Visibility="Collapsed" Height="28" Padding="10,0" FontSize="12"/>
                     </StackPanel>
 
-                    <DataGrid x:Name="dgHistory" Grid.Row="2" 
-          AutoGenerateColumns="False" IsReadOnly="True"
-          MouseDoubleClick="dgHistory_MouseDoubleClick">
+                    <!-- DataGrid истории -->
+                    <DataGrid x:Name="dgHistory" Grid.Row="3" 
+                              AutoGenerateColumns="False" IsReadOnly="True"
+                              MouseDoubleClick="dgHistory_MouseDoubleClick"
+                              AlternatingRowBackground="#F9FAFC"
+                              RowBackground="White"
+                              BorderThickness="0"
+                              GridLinesVisibility="Horizontal"
+                              FontSize="13">
+                        <DataGrid.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3498DB"/>
+                        </DataGrid.Resources>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Дата" Binding="{Binding DateExecution, StringFormat=dd.MM.yyyy HH:mm}" Width="150"/>
-                            <DataGridTextColumn Header="Тип события" Binding="{Binding TypeOperation}" Width="150"/>
+                            <DataGridTextColumn Header="Дата и время" Binding="{Binding DateExecution, StringFormat=dd.MM.yyyy HH:mm}" Width="140"/>
+                            <DataGridTextColumn Header="Тип события" Binding="{Binding TypeOperation}" Width="120"/>
                             <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
+
+                    <!-- Подсказка при пустой истории -->
+                    <TextBlock x:Name="tbEmptyHistory" Grid.Row="3" 
+                               Text="Нет событий. Нажмите &quot;Добавить событие&quot;"
+                               Foreground="#7F8C8D" FontSize="13" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Visibility="Collapsed"/>
                 </Grid>
-            </TabItem>
-        </TabControl>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
