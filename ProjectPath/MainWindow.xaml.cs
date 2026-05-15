@@ -47,11 +47,21 @@ namespace ProjectPath
 
             tbUserInfo.Text = $"{Data.UserFullName} ({Data.UserRole})";
 
-            if (Data.UserRole != "Администратор")
+            if (Data.UserRole == "Администратор")
+            {
+                
+            }
+            if(Data.UserRole == "Менеджер")
             {
                 btnDelete.IsEnabled = false;
-                btnAddEvent.IsEnabled = false;
             }
+            if(Data.UserRole == "Сотрудник" || Data.UserRole == "Гость") 
+            { 
+                btnAdd.IsEnabled = false;
+                btnDelete.IsEnabled = false;
+                btnEdit.IsEnabled = false;
+            }
+            
 
             await LoadProjectsAsync();
         }
