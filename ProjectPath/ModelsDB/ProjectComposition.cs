@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ProjectPath.ModelsDB;
+namespace ProjectPath.Modelsdb;
 
 public partial class ProjectComposition
 {
@@ -12,8 +12,6 @@ public partial class ProjectComposition
     public int NomenclatureId { get; set; }
 
     public decimal Quantity { get; set; }
-
-    public int ResponsiblePerson { get; set; }
 
     public virtual Nomenclature Nomenclature { get; set; } = null!;
 

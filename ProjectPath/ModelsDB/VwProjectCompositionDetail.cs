@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ProjectPath.ModelsDB;
+namespace ProjectPath.Modelsdb;
 
 public partial class VwProjectCompositionDetail
 {

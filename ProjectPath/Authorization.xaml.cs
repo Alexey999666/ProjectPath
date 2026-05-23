@@ -1,4 +1,4 @@
-﻿using ProjectPath.ModelsDB;
+﻿using ProjectPath.Modelsdb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,6 +131,11 @@ namespace ProjectPath
             Data.UserFullName = "Гость";
             Data.UserRole = "Гость";
             DialogResult = true;
+            Close();
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
             Close();
         }
     }

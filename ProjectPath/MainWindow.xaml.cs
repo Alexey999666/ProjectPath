@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.EntityFrameworkCore;
-using ProjectPath.ModelsDB;
+using ProjectPath.Modelsdb;
 
 namespace ProjectPath
 {
