@@ -1,0 +1,184 @@
+﻿<Window x:Class="ProjectPath.AddEditWarehouseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Склад" Height="550" Width="500"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <Style x:Key="InfoCard" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FormLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+
+        <Style x:Key="FormTextBox" TargetType="TextBox">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderBrush" Value="#D0D0D0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="FormComboBox" TargetType="ComboBox">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderBrush" Value="#D0D0D0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Background" Value="#C0392B"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="OutlineButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+            <Setter Property="BorderBrush" Value="#BDC3C7"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="6" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <Border Grid.Row="0" Style="{StaticResource InfoCard}" Margin="0,0,0,20">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFFFFF" Offset="0"/>
+                    <GradientStop Color="#F8F9FA" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="#E67E22" CornerRadius="8" Width="40" Height="40" Margin="0,0,15,0">
+                    <TextBlock Text="🏪" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+
+                <StackPanel Grid.Column="1">
+                    <TextBlock x:Name="tbTitle" Text="Добавление склада" FontSize="18" FontWeight="Bold" Foreground="#2C3E50"/>
+                    <TextBlock Text="Заполните все необходимые поля" FontSize="11" Foreground="#7F8C8D"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Форма -->
+        <Border Grid.Row="1" Style="{StaticResource InfoCard}">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFFFFF" Offset="0"/>
+                    <GradientStop Color="#F8F9FA" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Тип склада -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип склада:" Style="{StaticResource FormLabel}" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cbType" Grid.Row="0" Grid.Column="1" Style="{StaticResource FormComboBox}" Margin="0,0,0,15">
+                    <ComboBoxItem Content="Материальный"/>
+                    <ComboBoxItem Content="Инструментальный"/>
+                    <ComboBoxItem Content="Готовой продукции"/>
+                    <ComboBoxItem Content="Комплектующих"/>
+                    <ComboBoxItem Content="Временного хранения"/>
+                    <ComboBoxItem Content="Расходных материалов"/>
+                </ComboBox>
+
+                <!-- Координата X -->
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Координата X:" Style="{StaticResource FormLabel}" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbX" Grid.Row="1" Grid.Column="1" Style="{StaticResource FormTextBox}" Margin="0,0,0,15" IsReadOnly="{Binding ElementName=cbEditMode, Path=IsChecked}"/>
+
+                <!-- Координата Y -->
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Координата Y:" Style="{StaticResource FormLabel}" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbY" Grid.Row="2" Grid.Column="1" Style="{StaticResource FormTextBox}" Margin="0,0,0,15" IsReadOnly="{Binding ElementName=cbEditMode, Path=IsChecked}"/>
+
+                <!-- Ширина -->
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Ширина:" Style="{StaticResource FormLabel}" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbWidth" Grid.Row="3" Grid.Column="1" Style="{StaticResource FormTextBox}" Margin="0,0,0,15"/>
+
+                <!-- Высота -->
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Высота:" Style="{StaticResource FormLabel}" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbHeight" Grid.Row="4" Grid.Column="1" Style="{StaticResource FormTextBox}" Margin="0,0,0,15"/>
+
+                <!-- Чекбокс режима редактирования координат -->
+                <CheckBox x:Name="cbEditMode" Grid.Row="5" Grid.ColumnSpan="2" 
+                          Content="Разрешить редактирование координат (только при редактировании)" 
+                          Margin="0,0,0,15" FontSize="11" Visibility="Collapsed"/>
+
+                <!-- Кнопки -->
+                <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                    <Button x:Name="btnSave" Content="💾 Сохранить" Style="{StaticResource ActionButton}" Width="120" Height="25" Click="btnSave_Click"/>
+                    <Button x:Name="btnDelete" Content="🗑️ Удалить" Style="{StaticResource ActionButton}" Width="120" Height="35" Click="btnDelete_Click" Margin="10,0,10,0" Background="#E74C3C"/>
+                    <Button Content="❌ Отмена" Style="{StaticResource OutlineButton}" Width="120" Height="30" Click="btnCancel_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -14,5 +14,13 @@ namespace ProjectPath
         public static string UserRole { get; set; } = "Гость";
         public static string UserFullName { get; set; } = "";
         public static ProjectAction? SelectedEvent { get; set; }
+
+        public static Modelsdb.Nomenclature? SelectedNomenclature { get; set; }
+        public static StockBalance? stockBalance { get; set; }
+
+        public static Department? SelectedDepartment { get; set; }
+        public static Warehouse? SelectedWarehouse { get; set; }
+        public static int TempX { get; set; }
+        public static int TempY { get; set; }
     }
 }

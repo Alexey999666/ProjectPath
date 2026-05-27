@@ -9,12 +9,42 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="image\Bolt.png" />
+    <None Remove="image\Gaika.png" />
+    <None Remove="image\Kronshtein.jpg" />
+    <None Remove="image\listStali.jpg" />
+    <None Remove="image\No_Image_Available.jpg" />
+    <None Remove="image\Podshipnic.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.27" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.27" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.27">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="image\Bolt.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\Gaika.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\Kronshtein.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\listStali.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\No_Image_Available.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\Podshipnic.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

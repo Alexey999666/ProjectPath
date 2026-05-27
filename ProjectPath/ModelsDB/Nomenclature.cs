@@ -11,8 +11,6 @@ public partial class Nomenclature
 
     public string Type { get; set; } = null!;
 
-    public int WarehouseId { get; set; }
-
     public string UnitMeasure { get; set; } = null!;
 
     public string? Image { get; set; }

@@ -53,7 +53,6 @@ public partial class ProjectNewPartsContext : DbContext
         {
             entity.ToTable("Customer");
 
-            entity.Property(e => e.CustomerId).ValueGeneratedNever();
             entity.Property(e => e.Adress).HasMaxLength(50);
             entity.Property(e => e.ContactPerson).HasMaxLength(50);
             entity.Property(e => e.Email).HasMaxLength(50);
@@ -65,8 +64,6 @@ public partial class ProjectNewPartsContext : DbContext
         {
             entity.ToTable("Department");
 
-            entity.Property(e => e.DepartmentId).ValueGeneratedNever();
-            entity.Property(e => e.Location).HasMaxLength(50);
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Type).HasMaxLength(50);
         });
@@ -183,7 +180,6 @@ public partial class ProjectNewPartsContext : DbContext
         {
             entity.ToTable("StockBalance");
 
-            entity.Property(e => e.StockBalanceId).ValueGeneratedNever();
             entity.Property(e => e.Quantity).HasColumnType("decimal(12, 1)");
 
             entity.HasOne(d => d.Nomenclature).WithMany(p => p.StockBalances)
@@ -262,8 +258,6 @@ public partial class ProjectNewPartsContext : DbContext
         {
             entity.ToTable("Warehouse");
 
-            entity.Property(e => e.WarehouseId).ValueGeneratedNever();
-            entity.Property(e => e.ConditionalPosition).HasMaxLength(50);
             entity.Property(e => e.Type).HasMaxLength(50);
         });
 

@@ -34,6 +34,9 @@
             <ComboBoxItem Content="Смена руководителя"/>
             <ComboBoxItem Content="Замечание"/>
             <ComboBoxItem Content="Завершение"/>
+            <ComboBoxItem Content="Редактирование проекта"/>
+            <ComboBoxItem Content="Создание проекта"/>
+            <ComboBoxItem Content="Изменение статуса"/>
             <ComboBoxItem Content="Прочее"/>
         </ComboBox>
 
