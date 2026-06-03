@@ -39,7 +39,7 @@
                     </Border>
                     <StackPanel>
                         <TextBlock Text="Карта цехов и складов" FontSize="20" FontWeight="Bold" Foreground="White"/>
-                        <TextBlock Text="Нажмите правой кнопкой на пустое место для добавления" FontSize="10" Foreground="#BDC3C7"/>
+                        <TextBlock Text="Map of workshops and warehouses" FontSize="10" Foreground="#BDC3C7"/>
                     </StackPanel>
                 </StackPanel>
 

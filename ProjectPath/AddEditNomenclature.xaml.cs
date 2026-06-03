@@ -11,11 +11,11 @@ namespace ProjectPath
 {
     public partial class AddEditNomenclature : Window
     {
-        // Описываем контекст для доступа к данным
+       
         ProjectNewPartsContext _db = new ProjectNewPartsContext();
-        // Описываем сущность номенклатура
+      
         Modelsdb.Nomenclature _nomenclature;
-        // Путь к файлу выбранного фото
+     
         OpenFileDialog open = new OpenFileDialog();
 
         public AddEditNomenclature()
@@ -30,7 +30,7 @@ namespace ProjectPath
             {
                 tbTitle.Text = "➕ Добавление номенклатуры";
                 btnSave.Content = "💾 Добавить";
-                // Создаем нового абонента
+                
                 _nomenclature = new Modelsdb.Nomenclature();
             }
             // Иначе редактирование записи
@@ -38,13 +38,13 @@ namespace ProjectPath
             {
                 tbTitle.Text = "✏️ Редактирование номенклатуры";
                 btnSave.Content = "💾 Сохранить";
-                // Получаем в текущем контексте выбранную номенклатуру
+              
                 _nomenclature = _db.Nomenclatures.Find(Data.SelectedNomenclature.NomenclatureId);
 
-                // Заполняем поля
+              
                 tbName.Text = _nomenclature.Name;
 
-                // Заполняем ComboBox Тип
+               
                 for (int i = 0; i < cbType.Items.Count; i++)
                 {
                     ComboBoxItem item = cbType.Items[i] as ComboBoxItem;
@@ -55,7 +55,7 @@ namespace ProjectPath
                     }
                 }
 
-                // Заполняем ComboBox Единица измерения
+           
                 for (int i = 0; i < cbUnitMeasure.Items.Count; i++)
                 {
                     ComboBoxItem item = cbUnitMeasure.Items[i] as ComboBoxItem;
@@ -66,14 +66,14 @@ namespace ProjectPath
                     }
                 }
 
-                // Загружаем фото если есть
+              
                 if (!string.IsNullOrEmpty(_nomenclature.Image))
                 {
                     LoadImage(_nomenclature.Image);
                 }
             }
 
-            // Для текущего окна привязываем сущность
+           
             this.DataContext = _nomenclature;
         }
 
@@ -163,11 +163,11 @@ namespace ProjectPath
 
                 if (Data.SelectedNomenclature == null)
                 {
-                    // Добавляем в БД
+                   
                     _db.Nomenclatures.Add(_nomenclature);
                 }
 
-                // Сохраняем изменения в БД
+                
                 _db.SaveChanges();
 
                 this.DialogResult = true;

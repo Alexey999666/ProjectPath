@@ -167,16 +167,13 @@
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Высота:" Style="{StaticResource FormLabel}" VerticalAlignment="Center"/>
                 <TextBox x:Name="tbHeight" Grid.Row="4" Grid.Column="1" Style="{StaticResource FormTextBox}" Margin="0,0,0,15"/>
 
-                <!-- Чекбокс режима редактирования координат -->
-                <CheckBox x:Name="cbEditMode" Grid.Row="5" Grid.ColumnSpan="2" 
-                          Content="Разрешить редактирование координат (только при редактировании)" 
-                          Margin="0,0,0,15" FontSize="11" Visibility="Collapsed"/>
+                
 
                 <!-- Кнопки -->
                 <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                    <Button x:Name="btnSave" Content="💾 Сохранить" Style="{StaticResource ActionButton}" Width="120" Height="25" Click="btnSave_Click"/>
-                    <Button x:Name="btnDelete" Content="🗑️ Удалить" Style="{StaticResource ActionButton}" Width="120" Height="35" Click="btnDelete_Click" Margin="10,0,10,0" Background="#E74C3C"/>
-                    <Button Content="❌ Отмена" Style="{StaticResource OutlineButton}" Width="120" Height="30" Click="btnCancel_Click"/>
+                    <Button x:Name="btnSave" Content="💾 Сохранить" Style="{StaticResource ActionButton}" Width="120"  Click="btnSave_Click"/>
+                    <Button x:Name="btnDelete" Content="🗑️ Удалить" Style="{StaticResource ActionButton}" Width="120"  Click="btnDelete_Click" Margin="10,0,5,0" Background="#E74C3C"/>
+                    <Button Content="❌ Отмена" x:Name="btnCancel" Margin="5,0,0,0" Style="{StaticResource OutlineButton}" Width="120"  Click="btnCancel_Click"/>
                 </StackPanel>
             </Grid>
         </Border>

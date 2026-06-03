@@ -145,13 +145,13 @@ namespace ProjectPath
 
             if (e.Key == Key.Down)
             {
-                // Перемещаем фокус на поле пароля
+                
                 pbPassword.Focus();
                 e.Handled = true;
             }
             else if (e.Key == Key.Enter)
             {
-                // Выполняем вход
+                
                 btnLogin_Click(sender, e);
                 e.Handled = true;
             }
@@ -161,13 +161,13 @@ namespace ProjectPath
         {
             if (e.Key == Key.Enter)
             {
-                // Выполняем вход
+               
                 btnLogin_Click(sender, e);
                 e.Handled = true;
             }
             else if (e.Key == Key.Up && string.IsNullOrEmpty(pbPassword.Password))
             {
-                // Возвращаемся на логин (опционально)
+               
                 tbLogin.Focus();
                 e.Handled = true;
             }
@@ -177,7 +177,7 @@ namespace ProjectPath
         {
             if (e.Key == Key.Enter)
             {
-                // Выполняем вход
+               
                 btnLogin_Click(sender, e);
                 e.Handled = true;
             }

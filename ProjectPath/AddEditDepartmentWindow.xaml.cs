@@ -23,10 +23,12 @@ namespace ProjectPath
                 _department = new Department();
                 Title = "Добавление цеха";
                 btnSave.Content = "Добавить";
+                btnSave.Height= 40;
+                btnCancel.Height = 40;
                 btnDelete.Visibility = Visibility.Collapsed;
-                cbEditMode.Visibility = Visibility.Collapsed;
+                
 
-                // Устанавливаем координаты из точки клика
+               
                 tbX.Text = Data.TempX.ToString();
                 tbY.Text = Data.TempY.ToString();
             }
@@ -37,7 +39,7 @@ namespace ProjectPath
                 Title = "Редактирование цеха";
                 btnSave.Content = "Изменить";
                 btnDelete.Visibility = Visibility.Visible;
-                cbEditMode.Visibility = Visibility.Visible;
+              
             }
         }
 
@@ -47,7 +49,7 @@ namespace ProjectPath
             {
                 tbName.Text = _department.Name;
 
-                // Устанавливаем тип
+                
                 for (int i = 0; i < cbType.Items.Count; i++)
                 {
                     ComboBoxItem item = cbType.Items[i] as ComboBoxItem;
@@ -65,7 +67,7 @@ namespace ProjectPath
             }
             else
             {
-                // Значения по умолчанию для нового цеха
+                
                 if (string.IsNullOrEmpty(tbWidth.Text)) tbWidth.Text = "100";
                 if (string.IsNullOrEmpty(tbHeight.Text)) tbHeight.Text = "80";
             }
@@ -75,7 +77,7 @@ namespace ProjectPath
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            // Проверка заполнения
+            
             if (string.IsNullOrWhiteSpace(tbName.Text))
             {
                 MessageBox.Show("Введите название цеха", "Ошибка",
@@ -90,7 +92,7 @@ namespace ProjectPath
                 return;
             }
 
-            // Проверка координат X и Y
+            
             if (!int.TryParse(tbX.Text, out int x))
             {
                 MessageBox.Show("Введите корректную координату X", "Ошибка",
@@ -134,7 +136,7 @@ namespace ProjectPath
                 return;
             }
 
-            // Проверка границ Canvas (0-2000 для X, 0-1500 для Y)
+            
             if (x < 0 || x > 1950)
             {
                 MessageBox.Show("Координата X должна быть от 0 до 1950 (с учётом ширины)", "Ошибка",
@@ -176,7 +178,7 @@ namespace ProjectPath
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            // Проверка наличия сотрудников в цехе
+            
             bool hasEmployees = _db.Employees.Any(emp => emp.DepartmentId == _department.DepartmentId);
 
             if (hasEmployees)
@@ -206,6 +208,8 @@ namespace ProjectPath
                 }
             }
         }
+
+       
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {

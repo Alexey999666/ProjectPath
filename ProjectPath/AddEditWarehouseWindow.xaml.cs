@@ -23,9 +23,10 @@ namespace ProjectPath
                 _warehouse = new Warehouse();
                 Title = "Добавление склада";
                 btnSave.Content = "Добавить";
-                btnSave.Height = 50;
+                btnSave.Height = 40;
+                btnCancel.Height = 40;
                 btnDelete.Visibility = Visibility.Collapsed;
-                cbEditMode.Visibility = Visibility.Collapsed;
+               
 
                 // Устанавливаем координаты из точки клика
                 tbX.Text = Data.TempX.ToString();
@@ -38,7 +39,7 @@ namespace ProjectPath
                 Title = "Редактирование склада";
                 btnSave.Content = "Изменить";
                 btnDelete.Visibility = Visibility.Visible;
-                cbEditMode.Visibility = Visibility.Visible;
+             
             }
         }
 

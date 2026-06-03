@@ -9,13 +9,13 @@ public partial class Warehouse
 
     public string Type { get; set; } = null!;
 
-    public int? WarehouseX { get; set; }
+    public int WarehouseX { get; set; }
 
-    public int? WarehouseY { get; set; }
+    public int WarehouseY { get; set; }
 
-    public int? WarehouseWidth { get; set; }
+    public int WarehouseWidth { get; set; }
 
-    public int? WarehouseHeight { get; set; }
+    public int WarehouseHeight { get; set; }
 
     public virtual ICollection<StockBalance> StockBalances { get; set; } = new List<StockBalance>();
 }

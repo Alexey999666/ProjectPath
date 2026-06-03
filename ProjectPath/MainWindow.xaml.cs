@@ -14,7 +14,7 @@ namespace ProjectPath
         private ProjectNewPartsContext _db;
         private Project? _selectedProject = null;
         private System.Windows.Threading.DispatcherTimer _timer;
-        private bool _isHighlightEnabled = true; // Флаг состояния подсветки
+        private bool _isHighlightEnabled = true; 
 
         public MainWindow()
         {
@@ -110,7 +110,7 @@ namespace ProjectPath
 
                 dgProjects.ItemsSource = _db.Projects.Local.ToObservableCollection();
                 UpdateProjectStats();
-                UpdateRowHighlight(); // Обновляем подсветку после загрузки
+                UpdateRowHighlight(); 
             }
             catch (Exception ex)
             {
@@ -134,28 +134,28 @@ namespace ProjectPath
             }
         }
 
-        // Метод для переключения подсветки
+    
         private void btnToggleHighlight_Click(object sender, RoutedEventArgs e)
         {
             _isHighlightEnabled = !_isHighlightEnabled;
             UpdateRowHighlight();
 
-            // Меняем текст кнопки в зависимости от состояния
+         
             if (_isHighlightEnabled)
             {
                 btnToggleHighlight.Content = "🎨 Подсветка (Вкл)";
                 btnToggleHighlight.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#27AE60"));
-                //MessageBox.Show("Цветовая подсветка ВКЛЮЧЕНА", "Подсветка", MessageBoxButton.OK, MessageBoxImage.Information);
+              
             }
             else
             {
                 btnToggleHighlight.Content = "⚪ Подсветка (Выкл)";
                 btnToggleHighlight.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#95A5A6"));
-                //MessageBox.Show("Цветовая подсветка ВЫКЛЮЧЕНА", "Подсветка", MessageBoxButton.OK, MessageBoxImage.Information);
+              
             }
         }
 
-        // Метод обновления стиля строк
+       
         private void UpdateRowHighlight()
         {
             if (_isHighlightEnabled)
@@ -400,7 +400,7 @@ namespace ProjectPath
                 tbSearch.Text = "";
                 _selectedProject = null;
                 UpdateProjectDetails();
-                //MessageBox.Show("Список проектов обновлён", "Обновление", MessageBoxButton.OK, MessageBoxImage.Information);
+               
             }
             catch (Exception ex)
             {
@@ -533,7 +533,7 @@ namespace ProjectPath
         {
             try
             {
-                // Проверяем, не открыто ли уже окно заказчиков
+                
                 foreach (Window window in Application.Current.Windows)
                 {
                     if (window is CustomerWindow && window.IsVisible)
@@ -544,7 +544,7 @@ namespace ProjectPath
                 }
 
                 CustomerWindow customerWindow = new CustomerWindow();
-                customerWindow.Owner = this; // Устанавливаем владельца
+                customerWindow.Owner = this; 
                 customerWindow.Show();
                 this.Visibility = Visibility.Hidden;
             }
@@ -559,7 +559,7 @@ namespace ProjectPath
         {
             try
             {
-                // Проверяем, не открыто ли уже окно 
+               
                 foreach (Window window in Application.Current.Windows)
                 {
                     if (window is Nomenclature && window.IsVisible)
@@ -570,7 +570,7 @@ namespace ProjectPath
                 }
 
                 Nomenclature nomenclature = new Nomenclature();
-                nomenclature.Owner = this; // Устанавливаем владельца
+                nomenclature.Owner = this; 
                 nomenclature.Show();
                 this.Visibility = Visibility.Hidden;
             }
@@ -585,7 +585,7 @@ namespace ProjectPath
         {
             try
             {
-                // Проверяем, не открыто ли уже окно 
+               
                 foreach (Window window in Application.Current.Windows)
                 {
                     if (window is DepartmentAndWarehouseWindow && window.IsVisible)
@@ -596,7 +596,7 @@ namespace ProjectPath
                 }
 
                 DepartmentAndWarehouseWindow departmentAndWarehouseWindow = new DepartmentAndWarehouseWindow();
-                departmentAndWarehouseWindow.Owner = this; // Устанавливаем владельца
+                departmentAndWarehouseWindow.Owner = this; 
                 departmentAndWarehouseWindow.Show();
                 this.Visibility = Visibility.Hidden;
             }

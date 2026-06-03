@@ -71,7 +71,7 @@ namespace ProjectPath
             {
                 string searchText = tbSearch.Text.ToLower();
 
-                // Загружаем данные из базы каждый раз заново
+               
                 using (ProjectNewPartsContext _db = new ProjectNewPartsContext())
                 {
                     var allNomenclatures = _db.Nomenclatures.ToList();
@@ -139,7 +139,7 @@ namespace ProjectPath
                 tbSelectedInfo.Text = $"{selectedNomenclature.Name} ({selectedNomenclature.Type})";
                 LoadStockBalances(selectedNomenclature.NomenclatureId);
 
-                // Загружаем изображение для выбранного элемента
+                
                 LoadImage(selectedNomenclature);
             }
             else
@@ -216,28 +216,28 @@ namespace ProjectPath
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            // Передаем пустую ссылку в глобальный класс
+          
             Data.SelectedNomenclature = null;
-            // Открываем форму Добавить/Изменить
+           
             AddEditNomenclature f = new AddEditNomenclature();
             f.Owner = this;
             f.ShowDialog();
-            // Загружаем и отображаем информацию
+         
             LoadNomenclature();
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            // Проверяем что выбран элемент для редактирования
+           
             if (lvNomenclature.SelectedItem != null)
             {
-                // Передаем ссылку выделенной записи в глобальный класс
+               
                 Data.SelectedNomenclature = (Modelsdb.Nomenclature)lvNomenclature.SelectedItem;
-                // Открываем форму Добавить/Изменить
+              
                 AddEditNomenclature f = new AddEditNomenclature();
                 f.Owner = this;
                 f.ShowDialog();
-                // Загружаем и отображаем информацию
+               
                 LoadNomenclature();
             }
             else
@@ -307,18 +307,23 @@ namespace ProjectPath
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // Если окно закрывается не через кнопку "Назад", всё равно показываем главное окно
+           
             if (this.Owner is MainWindow mainWindow && mainWindow.Visibility != Visibility.Visible)
             {
                 mainWindow.Visibility = Visibility.Visible;
             }
         }
 
-        // Добавьте эти методы в класс Nomenclature
 
+        // Двойное нажатие - редактирование
         private void lvStockBalances_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // Двойное нажатие - редактирование
+            if (Data.UserRole == "Сотрудник" || Data.UserRole == "Гость")
+            {
+                MessageBox.Show("Редактирование может производить только администратор или менеджер", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            
             var selected = lvStockBalances.SelectedItem as StockBalance;
             if (selected != null)
             {
@@ -329,16 +334,21 @@ namespace ProjectPath
                     f.Owner = this;
                     if (f.ShowDialog() == true)
                     {
-                        // Обновляем данные
+                        
                         LoadStockBalances(selectedNomenclature.NomenclatureId);
                     }
                 }
             }
         }
-
+        // Правая кнопка - добавление
         private void lvStockBalances_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Правая кнопка - добавление
+            if (Data.UserRole == "Сотрудник" || Data.UserRole == "Гость") 
+            {
+                MessageBox.Show("Добавление может производить только администратор или менеджер","Внимание",MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+           
             var selectedNomenclature = lvNomenclature.SelectedItem as Modelsdb.Nomenclature;
             if (selectedNomenclature != null)
             {
@@ -346,7 +356,7 @@ namespace ProjectPath
                 f.Owner = this;
                 if (f.ShowDialog() == true)
                 {
-                    // Обновляем данные
+                    
                     LoadStockBalances(selectedNomenclature.NomenclatureId);
                 }
             }

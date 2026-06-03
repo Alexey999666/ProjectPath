@@ -48,7 +48,7 @@ namespace ProjectPath
         {
             try
             {
-                MapCanvas.Children.Clear();
+                MapCanvas.Children.Clear(); // Очищаем всё
 
                 // Загружаем цеха (Department)
                 var departments = _db.Departments.ToList();
@@ -73,10 +73,10 @@ namespace ProjectPath
 
         private void CreateDepartmentRectangle(Department dept)
         {
-            int x = dept.DepartmentX ?? 50;
-            int y = dept.DepartmentY ?? 50;
-            int width = dept.DepartmentWidth ?? 100;
-            int height = dept.DepartmentHeight ?? 80;
+            int x = dept.DepartmentX;
+            int y = dept.DepartmentY;
+            int width = dept.DepartmentWidth;
+            int height = dept.DepartmentHeight;
 
             Rectangle rect = new Rectangle();
             rect.Width = width;
@@ -109,10 +109,10 @@ namespace ProjectPath
 
         private void CreateWarehouseRectangle(Warehouse warehouse)
         {
-            int x = warehouse.WarehouseX ?? 50;
-            int y = warehouse.WarehouseY ?? 50;
-            int width = warehouse.WarehouseWidth ?? 100;
-            int height = warehouse.WarehouseHeight ?? 80;
+            int x = warehouse.WarehouseX;
+            int y = warehouse.WarehouseY;
+            int width = warehouse.WarehouseWidth;
+            int height = warehouse.WarehouseHeight;
 
             Rectangle rect = new Rectangle();
             rect.Width = width;
@@ -180,22 +180,35 @@ namespace ProjectPath
 
         private void EditDepartment(Department dept)
         {
+            if (Data.UserRole == "Сотрудник" || Data.UserRole == "Гость")
+            {
+                MessageBox.Show("Редактирование может производить только администратор или менеджер", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             Data.SelectedDepartment = dept;
             AddEditDepartmentWindow f = new AddEditDepartmentWindow();
             f.Owner = this;
             if (f.ShowDialog() == true)
             {
-                LoadMap(); // Перезагружаем карту
+                // Обновляем контекст, чтобы получить свежие данные
+                _db = new ProjectNewPartsContext();
+                LoadMap();
             }
         }
 
         private void EditWarehouse(Warehouse warehouse)
         {
+            if (Data.UserRole == "Сотрудник" || Data.UserRole == "Гость")
+            {
+                MessageBox.Show("Редактирование может производить только администратор или менеджер", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             Data.SelectedWarehouse = warehouse;
             AddEditWarehouseWindow f = new AddEditWarehouseWindow();
             f.Owner = this;
             if (f.ShowDialog() == true)
             {
+                _db = new ProjectNewPartsContext();
                 LoadMap();
             }
         }
@@ -212,6 +225,11 @@ namespace ProjectPath
 
         private void AddDepartment_Click(object sender, RoutedEventArgs e)
         {
+            if (Data.UserRole == "Сотрудник" || Data.UserRole == "Гость")
+            {
+                MessageBox.Show("Добавление может производить только администратор или менеджер", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             Data.SelectedDepartment = null;
             AddEditDepartmentWindow f = new AddEditDepartmentWindow();
             f.Owner = this;
@@ -223,6 +241,11 @@ namespace ProjectPath
 
         private void AddWarehouse_Click(object sender, RoutedEventArgs e)
         {
+            if (Data.UserRole == "Сотрудник" || Data.UserRole == "Гость")
+            {
+                MessageBox.Show("Добавление может производить только администратор или менеджер", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             Data.SelectedWarehouse = null;
             AddEditWarehouseWindow f = new AddEditWarehouseWindow();
             f.Owner = this;

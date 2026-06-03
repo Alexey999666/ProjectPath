@@ -236,7 +236,7 @@ namespace ProjectPath
                         transaction.Commit();
                     }
 
-                    // Очищаем кэш и перезагружаем данные
+                  
                     _db.ChangeTracker.Clear();
                     LoadCustomers();
 
@@ -348,11 +348,11 @@ namespace ProjectPath
         {
             try
             {
-                // Получаем владельца (главное окно)
+               
                 if (this.Owner is MainWindow mainWindow)
                 {
                     mainWindow.Visibility = Visibility.Visible;
-                    mainWindow.Activate(); // Активируем главное окно
+                    mainWindow.Activate();
                 }
                 this.Close();
             }
@@ -366,7 +366,7 @@ namespace ProjectPath
         
         private void CustomerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // Если окно закрывается не через кнопку "Назад", всё равно показываем главное окно
+            
             if (this.Owner is MainWindow mainWindow && mainWindow.Visibility != Visibility.Visible)
             {
                 mainWindow.Visibility = Visibility.Visible;
