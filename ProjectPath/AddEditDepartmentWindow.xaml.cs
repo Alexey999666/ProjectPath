@@ -70,14 +70,14 @@ namespace ProjectPath
             cbType.Focus();
         }
 
-        // НОВЫЙ МЕТОД: Проверка пересечения с другими объектами
+      
         private bool CheckForCollision(int x, int y, int width, int height)
         {
-            // Получаем все существующие объекты из БД
+           
             var departments = _db.Departments.ToList();
             var warehouses = _db.Warehouses.ToList();
 
-            // Определяем ID текущего объекта (для редактирования)
+            
             int? excludeId = _isEditMode ? _department.DepartmentId : (int?)null;
 
             // Вызываем метод проверки из Helper класса
@@ -90,7 +90,7 @@ namespace ProjectPath
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            // Валидация имени
+       
             if (string.IsNullOrWhiteSpace(tbName.Text))
             {
                 MessageBox.Show("Введите название цеха", "Ошибка",
@@ -164,7 +164,7 @@ namespace ProjectPath
                 return;
             }
 
-            // НОВАЯ ПРОВЕРКА: Пересечение с другими объектами
+            
             if (CheckForCollision(x, y, width, height))
             {
                 MessageBox.Show(RectangleCollisionHelper.GetCollisionMessage(),

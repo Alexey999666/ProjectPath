@@ -68,14 +68,14 @@ namespace ProjectPath
             cbType.Focus();
         }
 
-        // НОВЫЙ МЕТОД: Проверка пересечения с другими объектами
+        //Проверка пересечения
         private bool CheckForCollision(int x, int y, int width, int height)
         {
-            // Получаем все существующие объекты из БД
+            
             var departments = _db.Departments.ToList();
             var warehouses = _db.Warehouses.ToList();
 
-            // Определяем ID текущего объекта (для редактирования)
+            
             int? excludeId = _isEditMode ? _warehouse.WarehouseId : (int?)null;
 
             // Вызываем метод проверки из Helper класса
@@ -88,7 +88,7 @@ namespace ProjectPath
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            // Проверка выбора типа
+           
             if (cbType.SelectedItem == null)
             {
                 MessageBox.Show("Выберите тип склада", "Ошибка",
@@ -155,7 +155,7 @@ namespace ProjectPath
                 return;
             }
 
-            // НОВАЯ ПРОВЕРКА: Пересечение с другими объектами
+            // Проверка пересечения
             if (CheckForCollision(x, y, width, height))
             {
                 MessageBox.Show(RectangleCollisionHelper.GetCollisionMessage(),
