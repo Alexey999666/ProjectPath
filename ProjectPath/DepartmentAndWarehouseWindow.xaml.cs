@@ -48,7 +48,7 @@ namespace ProjectPath
         {
             try
             {
-                MapCanvas.Children.Clear(); // Очищаем всё
+                MapCanvas.Children.Clear(); 
 
                 // Загружаем цеха (Department)
                 var departments = _db.Departments.ToList();
@@ -81,15 +81,15 @@ namespace ProjectPath
             Rectangle rect = new Rectangle();
             rect.Width = width;
             rect.Height = height;
-            rect.Fill = new SolidColorBrush(Color.FromRgb(46, 204, 113)); // Зеленый для цеха
+            rect.Fill = new SolidColorBrush(Color.FromRgb(46, 204, 113)); 
             rect.Stroke = new SolidColorBrush(Color.FromRgb(39, 174, 96));
             rect.StrokeThickness = 2;
             rect.RadiusX = 8;
             rect.RadiusY = 8;
-            rect.Tag = dept; // Сохраняем объект в Tag
+            rect.Tag = dept; 
             rect.Cursor = Cursors.Hand;
 
-            // ToolTip с данными
+           
             int employeeCount = _db.Employees.Count(e => e.DepartmentId == dept.DepartmentId);
             rect.ToolTip = $"🏭 ЦЕХ\n\n" +
                           $"Название: {dept.Name}\n" +
@@ -117,7 +117,7 @@ namespace ProjectPath
             Rectangle rect = new Rectangle();
             rect.Width = width;
             rect.Height = height;
-            rect.Fill = new SolidColorBrush(Color.FromRgb(230, 126, 34)); // Оранжевый для склада
+            rect.Fill = new SolidColorBrush(Color.FromRgb(230, 126, 34)); 
             rect.Stroke = new SolidColorBrush(Color.FromRgb(211, 84, 0));
             rect.StrokeThickness = 2;
             rect.RadiusX = 8;
@@ -125,12 +125,12 @@ namespace ProjectPath
             rect.Tag = warehouse;
             rect.Cursor = Cursors.Hand;
 
-            // Считаем количество номенклатуры на складе
+           
             decimal totalQuantity = _db.StockBalances
                 .Where(sb => sb.WarehouseId == warehouse.WarehouseId)
                 .Sum(sb => sb.Quantity);
 
-            // ToolTip с данными
+         
             rect.ToolTip = $"🏪 СКЛАД\n\n" +
                           $"Тип склада: {warehouse.Type}\n" +
                           $"Кол-во номенклатуры: {totalQuantity:F2} шт.\n" +
@@ -215,12 +215,12 @@ namespace ProjectPath
 
         private void MapCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Координаты клика на Canvas
+           
             Point clickPoint = e.GetPosition(MapCanvas);
             Data.TempX = (int)clickPoint.X;
             Data.TempY = (int)clickPoint.Y;
             
-            // Контекстное меню откроется автоматически
+           
         }
 
         private void AddDepartment_Click(object sender, RoutedEventArgs e)
@@ -277,7 +277,7 @@ namespace ProjectPath
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // Если окно закрывается не через кнопку "Назад", всё равно показываем главное окно
+            
             if (this.Owner is MainWindow mainWindow && mainWindow.Visibility != Visibility.Visible)
             {
                 mainWindow.Visibility = Visibility.Visible;

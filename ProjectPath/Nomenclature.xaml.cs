@@ -64,14 +64,14 @@ namespace ProjectPath
             }
         }
 
-        // ПОИСК 
+        //ПОИСК
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
                 string searchText = tbSearch.Text.ToLower();
 
-               
+
                 using (ProjectNewPartsContext _db = new ProjectNewPartsContext())
                 {
                     var allNomenclatures = _db.Nomenclatures.ToList();
@@ -111,6 +111,10 @@ namespace ProjectPath
             {
                 using (var _db = new ProjectNewPartsContext())
                 {
+                   
+                    var nomenclature = _db.Nomenclatures.Find(nomenclatureId);
+                    string unit = nomenclature?.UnitMeasure ?? "шт";
+
                     var stockBalances = _db.StockBalances
                         .Include(sb => sb.Warehouse)
                         .Where(sb => sb.NomenclatureId == nomenclatureId)
@@ -118,9 +122,9 @@ namespace ProjectPath
 
                     lvStockBalances.ItemsSource = stockBalances;
 
-                    // Подсчёт общей суммы
+                   
                     decimal totalQuantity = stockBalances.Sum(sb => sb.Quantity);
-                    tbTotalQuantity.Text = $"Всего на складах: {totalQuantity:F2} шт.";
+                    tbTotalQuantity.Text = $"Всего на складах: {totalQuantity:F2} {unit}";
                 }
             }
             catch (Exception ex)
@@ -139,7 +143,7 @@ namespace ProjectPath
                 tbSelectedInfo.Text = $"{selectedNomenclature.Name} ({selectedNomenclature.Type})";
                 LoadStockBalances(selectedNomenclature.NomenclatureId);
 
-                
+
                 LoadImage(selectedNomenclature);
             }
             else
@@ -216,28 +220,28 @@ namespace ProjectPath
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-          
+
             Data.SelectedNomenclature = null;
-           
+
             AddEditNomenclature f = new AddEditNomenclature();
             f.Owner = this;
             f.ShowDialog();
-         
+
             LoadNomenclature();
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-           
+
             if (lvNomenclature.SelectedItem != null)
             {
-               
+
                 Data.SelectedNomenclature = (Modelsdb.Nomenclature)lvNomenclature.SelectedItem;
-              
+
                 AddEditNomenclature f = new AddEditNomenclature();
                 f.Owner = this;
                 f.ShowDialog();
-               
+
                 LoadNomenclature();
             }
             else
@@ -307,7 +311,7 @@ namespace ProjectPath
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-           
+
             if (this.Owner is MainWindow mainWindow && mainWindow.Visibility != Visibility.Visible)
             {
                 mainWindow.Visibility = Visibility.Visible;
@@ -315,7 +319,7 @@ namespace ProjectPath
         }
 
 
-        // Двойное нажатие - редактирование
+        //Двойное нажатие -редактирование
         private void lvStockBalances_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (Data.UserRole == "Сотрудник" || Data.UserRole == "Гость")
@@ -323,7 +327,7 @@ namespace ProjectPath
                 MessageBox.Show("Редактирование может производить только администратор или менеджер", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            
+
             var selected = lvStockBalances.SelectedItem as StockBalance;
             if (selected != null)
             {
@@ -334,21 +338,21 @@ namespace ProjectPath
                     f.Owner = this;
                     if (f.ShowDialog() == true)
                     {
-                        
+
                         LoadStockBalances(selectedNomenclature.NomenclatureId);
                     }
                 }
             }
         }
-        // Правая кнопка - добавление
+        //Правая кнопка -добавление
         private void lvStockBalances_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (Data.UserRole == "Сотрудник" || Data.UserRole == "Гость") 
+            if (Data.UserRole == "Сотрудник" || Data.UserRole == "Гость")
             {
-                MessageBox.Show("Добавление может производить только администратор или менеджер","Внимание",MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Добавление может производить только администратор или менеджер", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-           
+
             var selectedNomenclature = lvNomenclature.SelectedItem as Modelsdb.Nomenclature;
             if (selectedNomenclature != null)
             {
@@ -356,7 +360,7 @@ namespace ProjectPath
                 f.Owner = this;
                 if (f.ShowDialog() == true)
                 {
-                    
+
                     LoadStockBalances(selectedNomenclature.NomenclatureId);
                 }
             }

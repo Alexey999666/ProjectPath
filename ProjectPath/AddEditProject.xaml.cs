@@ -1,6 +1,7 @@
 ﻿using ProjectPath.Modelsdb;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.EntityFrameworkCore;
@@ -202,9 +203,34 @@ namespace ProjectPath
                 MessageBox.Show($"Ошибка записи истории: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+        //Метод проверки стоимости
+        private bool IsValidCost(string costText)
+        {
+
+            if (string.IsNullOrWhiteSpace(costText))
+                return false;
+
+
+            string normalized = costText.Replace(',', '.');
+
+
+            if (!Regex.IsMatch(normalized, @"^\d+\.?\d*$"))
+                return false;
+
+
+            if (normalized.StartsWith("."))
+                return false;
+
+
+            if (normalized.EndsWith("."))
+                return false;
+
+            return true;
+        }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+
             if (string.IsNullOrWhiteSpace(tbName.Text))
             {
                 MessageBox.Show("Введите название проекта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -212,11 +238,13 @@ namespace ProjectPath
                 return;
             }
 
+
             if (cbSupervisor.SelectedItem == null)
             {
                 MessageBox.Show("Выберите руководителя", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
 
             if (cbCustomer.SelectedItem == null)
             {
@@ -224,11 +252,13 @@ namespace ProjectPath
                 return;
             }
 
+
             if (cbDepartment.SelectedItem == null)
             {
                 MessageBox.Show("Выберите отдел", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
 
             if (!dpStartDate.SelectedDate.HasValue)
             {
@@ -236,10 +266,68 @@ namespace ProjectPath
                 return;
             }
 
+
             if (!dpPlannedDate.SelectedDate.HasValue)
             {
                 MessageBox.Show("Выберите плановую дату завершения", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
+            }
+
+
+            if (dpStartDate.SelectedDate.Value.Date > dpPlannedDate.SelectedDate.Value.Date)
+            {
+                MessageBox.Show("Дата начала проекта не может быть позже плановой даты завершения",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                dpStartDate.Focus();
+                return;
+            }
+
+           
+            if (dpActualDate.SelectedDate.HasValue)
+            {
+                if (dpActualDate.SelectedDate.Value.Date < dpStartDate.SelectedDate.Value.Date)
+                {
+                    MessageBox.Show("Фактическая дата завершения не может быть раньше даты начала проекта",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    dpActualDate.Focus();
+                    return;
+                }
+            }
+
+
+            if (tbCost != null && tbCost.Visibility == Visibility.Visible)
+            {
+
+                if (string.IsNullOrWhiteSpace(tbCost.Text))
+                {
+                    MessageBox.Show("Введите стоимость проекта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tbCost.Focus();
+                    return;
+                }
+
+
+                if (!IsValidCost(tbCost.Text))
+                {
+                    MessageBox.Show("Введите корректную стоимость\n\nПримеры:\n1000\n1000.50\n1000,50",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tbCost.Focus();
+                    return;
+                }
+
+
+                string normalized = tbCost.Text.Replace(',', '.');
+                decimal cost = decimal.Parse(normalized, System.Globalization.CultureInfo.InvariantCulture);
+
+
+                if (cost <= 0)
+                {
+                    MessageBox.Show("Стоимость должна быть больше 0", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tbCost.Focus();
+                    return;
+                }
+
+
+                _project.EstimatedDesignCost = cost;
             }
 
             try

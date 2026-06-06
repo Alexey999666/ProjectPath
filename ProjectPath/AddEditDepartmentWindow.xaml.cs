@@ -23,12 +23,10 @@ namespace ProjectPath
                 _department = new Department();
                 Title = "Добавление цеха";
                 btnSave.Content = "Добавить";
-                btnSave.Height= 40;
+                btnSave.Height = 40;
                 btnCancel.Height = 40;
                 btnDelete.Visibility = Visibility.Collapsed;
-                
 
-               
                 tbX.Text = Data.TempX.ToString();
                 tbY.Text = Data.TempY.ToString();
             }
@@ -39,7 +37,6 @@ namespace ProjectPath
                 Title = "Редактирование цеха";
                 btnSave.Content = "Изменить";
                 btnDelete.Visibility = Visibility.Visible;
-              
             }
         }
 
@@ -49,7 +46,6 @@ namespace ProjectPath
             {
                 tbName.Text = _department.Name;
 
-                
                 for (int i = 0; i < cbType.Items.Count; i++)
                 {
                     ComboBoxItem item = cbType.Items[i] as ComboBoxItem;
@@ -67,7 +63,6 @@ namespace ProjectPath
             }
             else
             {
-                
                 if (string.IsNullOrEmpty(tbWidth.Text)) tbWidth.Text = "100";
                 if (string.IsNullOrEmpty(tbHeight.Text)) tbHeight.Text = "80";
             }
@@ -75,9 +70,27 @@ namespace ProjectPath
             cbType.Focus();
         }
 
+        // НОВЫЙ МЕТОД: Проверка пересечения с другими объектами
+        private bool CheckForCollision(int x, int y, int width, int height)
+        {
+            // Получаем все существующие объекты из БД
+            var departments = _db.Departments.ToList();
+            var warehouses = _db.Warehouses.ToList();
+
+            // Определяем ID текущего объекта (для редактирования)
+            int? excludeId = _isEditMode ? _department.DepartmentId : (int?)null;
+
+            // Вызываем метод проверки из Helper класса
+            return RectangleCollisionHelper.HasCollision(
+                x, y, width, height,
+                departments, warehouses,
+                excludeId, null  // excludeWarehouseId = null, т.к. проверяем цех
+            );
+        }
+
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            
+            // Валидация имени
             if (string.IsNullOrWhiteSpace(tbName.Text))
             {
                 MessageBox.Show("Введите название цеха", "Ошибка",
@@ -92,7 +105,7 @@ namespace ProjectPath
                 return;
             }
 
-            
+            // Парсинг координат и размеров
             if (!int.TryParse(tbX.Text, out int x))
             {
                 MessageBox.Show("Введите корректную координату X", "Ошибка",
@@ -107,7 +120,6 @@ namespace ProjectPath
                 return;
             }
 
-            // Проверка размеров (минимум 20, максимум 100)
             if (!int.TryParse(tbWidth.Text, out int width))
             {
                 MessageBox.Show("Введите корректную ширину", "Ошибка",
@@ -122,6 +134,7 @@ namespace ProjectPath
                 return;
             }
 
+            // Проверка размеров
             if (width < 20 || width > 100)
             {
                 MessageBox.Show("Ширина должна быть от 20 до 100", "Ошибка",
@@ -136,18 +149,26 @@ namespace ProjectPath
                 return;
             }
 
-            
-            if (x < 0 || x > 1950)
+            // Проверка границ Canvas
+            if (x < 0 || x + width > 2000)
             {
-                MessageBox.Show("Координата X должна быть от 0 до 1950 (с учётом ширины)", "Ошибка",
+                MessageBox.Show($"Координата X должна быть от 0 до {2000 - width} (с учётом ширины)", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (y < 0 || y > 1420)
+            if (y < 0 || y + height > 1500)
             {
-                MessageBox.Show("Координата Y должна быть от 0 до 1420 (с учётом высоты)", "Ошибка",
+                MessageBox.Show($"Координата Y должна быть от 0 до {1500 - height} (с учётом высоты)", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // НОВАЯ ПРОВЕРКА: Пересечение с другими объектами
+            if (CheckForCollision(x, y, width, height))
+            {
+                MessageBox.Show(RectangleCollisionHelper.GetCollisionMessage(),
+                    "Конфликт объектов", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -178,7 +199,6 @@ namespace ProjectPath
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            
             bool hasEmployees = _db.Employees.Any(emp => emp.DepartmentId == _department.DepartmentId);
 
             if (hasEmployees)
@@ -208,8 +228,6 @@ namespace ProjectPath
                 }
             }
         }
-
-       
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {

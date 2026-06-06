@@ -79,6 +79,14 @@ namespace ProjectPath
                 return;
             }
 
+            // Проверка на 0 или отрицательное значение
+            if (quantity <= 0)
+            {
+                MessageBox.Show("Количество должно быть больше 0", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             try
             {
                 _stockBalance.WarehouseId = (int)cbWarehouse.SelectedValue;

@@ -287,22 +287,23 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <!-- Номер склада (ID) -->
+                                        
                                             <Border Grid.Column="0" Background="#34495E" CornerRadius="8" 
                                 Padding="8,4" HorizontalAlignment="Left">
                                                 <TextBlock Text="{Binding Warehouse.WarehouseId, StringFormat=Склад №{0}}" 
                                        Foreground="White" FontWeight="Bold" FontSize="11"/>
                                             </Border>
 
-                                            <!-- Тип склада (вместо названия и адреса) -->
+                                           
                                             <StackPanel Grid.Column="1" Margin="15,0,15,0">
                                                 <TextBlock Text="{Binding Warehouse.Type}" FontWeight="SemiBold" FontSize="13"/>
                                             </StackPanel>
 
-                                            <!-- Количество -->
+                                            
+                                           
                                             <Border Grid.Column="2" Background="#27AE60" CornerRadius="15" Padding="10,5">
                                                 <TextBlock Foreground="White" FontWeight="SemiBold" FontSize="12"
-                                       Text="{Binding Quantity, StringFormat=\{0:F2\} шт.}"/>
+               Text="{Binding Quantity, StringFormat=\{0:F2\}}"/>
                                             </Border>
                                         </Grid>
                                     </Border>

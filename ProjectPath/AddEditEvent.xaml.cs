@@ -55,7 +55,7 @@ namespace ProjectPath
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Загружаем данные в поля
+
             if (_event.DateExecution != DateTime.MinValue)
             {
                 dpDateExecution.SelectedDate = _event.DateExecution.Date;
@@ -68,7 +68,7 @@ namespace ProjectPath
 
             tbComment.Text = _event.Comment;
 
-            // Устанавливаем выбранный тип события
+
             if (!string.IsNullOrEmpty(_event.TypeOperation))
             {
                 foreach (ComboBoxItem item in cbTypeOperation.Items)
@@ -83,9 +83,43 @@ namespace ProjectPath
 
             cbTypeOperation.Focus();
         }
+        // Проверка формата времени
+        private bool IsValidTime(string time)
+        {
+            // Проверка формата ЧЧ:ММ
+            if (string.IsNullOrWhiteSpace(time))
+                return false;
+
+            
+            if (time.Length != 5)
+                return false;
+
+          
+            if (time[2] != ':')
+                return false;
+
+           
+            if (!char.IsDigit(time[0]) || !char.IsDigit(time[1]) ||
+                !char.IsDigit(time[3]) || !char.IsDigit(time[4]))
+                return false;
+
+            // Получаем часы и минуты
+            int hours = int.Parse(time.Substring(0, 2));
+            int minutes = int.Parse(time.Substring(3, 2));
+
+            // Проверка диапазона
+            if (hours < 0 || hours > 23)
+                return false;
+
+            if (minutes < 0 || minutes > 59)
+                return false;
+
+            return true;
+        }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+          
             if (cbTypeOperation.SelectedItem == null)
             {
                 MessageBox.Show("Выберите тип события", "Ошибка",
@@ -93,9 +127,36 @@ namespace ProjectPath
                 return;
             }
 
+         
+            if (!dpDateExecution.SelectedDate.HasValue)
+            {
+                MessageBox.Show("Выберите дату события", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                dpDateExecution.Focus();
+                return;
+            }
+
+            
+            if (string.IsNullOrWhiteSpace(tbTime.Text))
+            {
+                MessageBox.Show("Введите время события в формате ЧЧ:ММ", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                tbTime.Focus();
+                return;
+            }
+
+            // Проверка формата времени
+            if (!IsValidTime(tbTime.Text))
+            {
+                MessageBox.Show("Введите корректное время в формате ЧЧ:ММ\n\nПримеры:\n09:30\n14:00\n23:59",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                tbTime.Focus();
+                return;
+            }
+
             try
             {
-                DateTime selectedDate = dpDateExecution.SelectedDate ?? DateTime.Now;
+                DateTime selectedDate = dpDateExecution.SelectedDate.Value;
                 string[] timeParts = tbTime.Text.Split(':');
                 int hours = int.Parse(timeParts[0]);
                 int minutes = int.Parse(timeParts[1]);

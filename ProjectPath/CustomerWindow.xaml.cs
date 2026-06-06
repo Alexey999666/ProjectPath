@@ -236,7 +236,6 @@ namespace ProjectPath
                         transaction.Commit();
                     }
 
-                  
                     _db.ChangeTracker.Clear();
                     LoadCustomers();
 
@@ -265,6 +264,7 @@ namespace ProjectPath
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+           
             if (string.IsNullOrWhiteSpace(tbNameOrganization.Text))
             {
                 MessageBox.Show("Введите название организации", "Ошибка",
@@ -273,6 +273,7 @@ namespace ProjectPath
                 return;
             }
 
+           
             if (string.IsNullOrWhiteSpace(tbContactPerson.Text))
             {
                 MessageBox.Show("Введите контактное лицо", "Ошибка",
@@ -281,11 +282,47 @@ namespace ProjectPath
                 return;
             }
 
+           
             if (string.IsNullOrWhiteSpace(tbPhone.Text))
             {
                 MessageBox.Show("Введите телефон", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 tbPhone.Focus();
+                return;
+            }
+
+           
+            if (tbPhone.Text.Length < 10)
+            {
+                MessageBox.Show("Телефон должен содержать минимум 10 символов", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                tbPhone.Focus();
+                return;
+            }
+
+            if (tbPhone.Text.Any(char.IsLetter))
+            {
+                MessageBox.Show("Некорректная запись номера", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                tbPhone.Focus();
+                return;
+            }
+
+          
+            if (string.IsNullOrWhiteSpace(tbEmail.Text))
+            {
+                MessageBox.Show("Введите email", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                tbEmail.Focus();
+                return;
+            }
+
+          
+            if (string.IsNullOrWhiteSpace(tbAdress.Text))
+            {
+                MessageBox.Show("Введите адрес", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                tbAdress.Focus();
                 return;
             }
 
@@ -348,7 +385,6 @@ namespace ProjectPath
         {
             try
             {
-               
                 if (this.Owner is MainWindow mainWindow)
                 {
                     mainWindow.Visibility = Visibility.Visible;
@@ -363,10 +399,8 @@ namespace ProjectPath
             }
         }
 
-        
         private void CustomerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            
             if (this.Owner is MainWindow mainWindow && mainWindow.Visibility != Visibility.Visible)
             {
                 mainWindow.Visibility = Visibility.Visible;
@@ -375,7 +409,7 @@ namespace ProjectPath
 
         private void btnInfo_Click(object sender, RoutedEventArgs e)
         {
-            string mes = "Для того чтобы добавить, изменить или удалить заказчика воспользуйтесь панелью кнопок справа от списка.Это может делать только администратор или менеджер.\nДля редактирования или удаления выберите заказчика из списка. Удаление возможно только если у заказчика нет незавершенных проектов.\nДля возращение на главное окно нажмите на кнопку ←Назад";
+            string mes = "Для того чтобы добавить, изменить или удалить заказчика воспользуйтесь панелью кнопок справа от списка. Это может делать только администратор или менеджер.\nДля редактирования или удаления выберите заказчика из списка. Удаление возможно только если у заказчика нет незавершенных проектов.\nДля возращение на главное окно нажмите на кнопку ←Назад";
             MessageBox.Show(mes, "Справка", MessageBoxButton.OK, MessageBoxImage.Question);
         }
     }
